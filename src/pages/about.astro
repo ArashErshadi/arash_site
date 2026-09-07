@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Practice & Design Philosophy | Arash Ershadi"
+  description="Design methodology, spatial research, environmental thermodynamics, and material ethics in architectural practice."
+  lang="en"
+  currentPath="/about/"
+>
+  <div class="site-container about-page-header">
+    <span class="text-label">Practice // Methodology & Spatial Ethics</span>
+    <h1 class="about-title">Architecture as Environmental Archaeology</h1>
+    <p class="about-lead text-muted">
+      Investigating the intersection of vernacular thermodynamics, material honesty, and computational structural performance.
+    </p>
+  </div>
+
+  <div class="site-container about-content site-grid">
+    <div class="about-main-text">
+      <section class="about-section">
+        <h2 class="text-serif text-2xl">01 // Spatial Philosophy</h2>
+        <p>
+          We view every building as an active participant in its environmental and cultural ecosystem. Rather than designing hermetic envelopes reliant on artificial mechanical life support, our work explores how form, orientation, and material porosity can harness diurnal thermal shifts, natural convection, and solar trajectories.
+        </p>
+        <p>
+          Historical Iranian architecture developed exceptional vernacular intelligence over millennia: windcatchers (badgir), subterranean cisterns (ab-anbar), sunken gardens (gowd-e baghcheh), and intricate masonry screens (orosi and fakhro-madin). Our practice translates these principles into contemporary building envelopes using advanced computational aerodynamics and parametric masonry tooling.
+        </p>
+      </section>
+
+      <section class="about-section">
+        <h2 class="text-serif text-2xl">02 // Adaptive Reuse & Heritage Conservation</h2>
+        <p>
+          The most sustainable building is the one that already exists. Our adaptive reuse practice treats existing industrial frameworks and historic structures not as immutable monuments, but as resilient tectonic skeletons capable of absorbing new civic programs, contemporary artist residencies, and cultural venues without erasing their authentic scars and industrial patina.
+        </p>
+      </section>
+
+      <section class="about-section">
+        <h2 class="text-serif text-2xl">03 // Research & Teaching</h2>
+        <p>
+          Design practice is continuously informed by academic spatial research, thermodynamic physical casting models, and solar geometry studies. We frequently lecture and participate in international workshops on earth architecture and vernacular climate mitigation.
+        </p>
+      </section>
+    </div>
+
+    <aside class="about-sidebar">
+      <div class="about-side-panel">
+        <span class="text-label">Studio Inquiries</span>
+        <p class="text-sm text-muted">Collaborations, architectural commissions, academic lectures, and publication requests.</p>
+        <a href="/contact/" class="btn-editorial">
+          <span>Contact Studio</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page-header {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-12);
+  }
+
+  .about-title {
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .about-lead {
+    font-size: var(--text-xl);
+    line-height: var(--leading-relaxed);
+    max-width: 760px;
+  }
+
+  .about-content {
+    padding-bottom: var(--space-24);
+  }
+
+  .about-main-text {
+    grid-column: span 8;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .about-section h2 {
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border-hairline);
+  }
+
+  .about-section p {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-body);
+  }
+
+  .about-sidebar {
+    grid-column: span 4;
+  }
+
+  .about-side-panel {
+    background-color: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 768px) {
+    .about-main-text { grid-column: span 12; }
+    .about-sidebar { grid-column: span 12; }
+  }
+</style>

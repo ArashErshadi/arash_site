@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="سیاست حفظ حریم خصوصی | آرش ارشادی"
+  description="سیاست شفافیت و حفظ حریم خصوصی کاربران در وبگاه مونوگراف معماری آرش ارشادی."
+  lang="fa"
+  currentPath="/fa/privacy/"
+>
+  <div class="site-container page-header">
+    <span class="text-label">حقوقی // شفافیت</span>
+    <h1 class="page-title">سیاست حفظ حریم خصوصی</h1>
+  </div>
+
+  <div class="site-container-narrow page-body">
+    <section class="privacy-section">
+      <h2 class="text-xl">۱. عدم ره‌گیری پیش‌فرض و جمع‌آوری داده</h2>
+      <p>
+        این وبگاه به عنوان یک مونوگراف معماری ایستا طراحی شده است. ما هیچ‌گونه داده هویتی، رفتاری یا تجاری از بازدیدکنندگان را جمع‌آوری، پردازش یا واگذار نمی‌کنیم.
+      </p>
+      <p>
+        به صورت پیش‌فرض، هیچ اسکریپت ره‌گیری شخص ثالث یا کوکی‌های تبلیغاتی در این وبگاه فعال نیستند.
+      </p>
+    </section>
+
+    <section class="privacy-section">
+      <h2 class="text-xl">۲. مکاتبات اختیاری و تماس</h2>
+      <p>
+        در صورتی که از طریق ایمیل یا فرم تماس با ما مکاتبه نمایید، اطلاعات ارسالی (نام، ایمیل و شرح پروژه) صرفاً جهت پاسخگویی به درخواست همکاری شما مورد استفاده قرار خواهد گرفت.
+      </p>
+    </section>
+
+    <section class="privacy-section">
+      <h2 class="text-xl">۳. ابزارهای اختیاری آمار و تحلیل</h2>
+      <p>
+        در صورت فعال‌سازی اختیاری ابزارهای تحلیلی با تنظیم شناسه محیطی، داده‌های ناشناس آماری صرفاً جهت ارزیابی کلی بازدیدها استفاده می‌شود. شما می‌توانید با فعال‌سازی گزینه عدم ره‌گیری در مرورگر خود، از ثبت این داده‌ها جلوگیری کنید.
+      </p>
+    </section>
+
+    <section class="privacy-section">
+      <h2 class="text-xl">۴. تماس و پشتیبانی</h2>
+      <p>
+        جهت هرگونه پرسش درباره حریم خصوصی می‌توانید با ایمیل <a href="mailto:arash.ershadi.arch@example.com" class="text-accent">arash.ershadi.arch@example.com</a> در ارتباط باشید.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-8);
+  }
+
+  .page-title {
+    margin-top: var(--space-2);
+    font-weight: 600;
+  }
+
+  .page-body {
+    padding-bottom: var(--space-24);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .privacy-section h2 {
+    margin-bottom: var(--space-3);
+    font-weight: 600;
+  }
+
+  .privacy-section p {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-body);
+    margin-bottom: var(--space-3);
+  }
+</style>

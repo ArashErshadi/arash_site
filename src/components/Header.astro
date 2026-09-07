@@ -1,0 +1,231 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+interface Props {
+  lang?: 'en' | 'fa';
+  currentPath?: string;
+  alternateUrl?: string;
+}
+
+const { lang = 'en', currentPath = '/', alternateUrl } = Astro.props;
+const isRtl = lang === 'fa';
+
+const navItems = lang === 'en' ? [
+  { label: 'Work', href: '/projects/' },
+  { label: 'Practice', href: '/about/' },
+  { label: 'Resume', href: '/resume/' },
+  { label: 'Contact', href: '/contact/' },
+] : [
+  { label: 'پروژه‌ها', href: '/fa/projects/' },
+  { label: 'رویکرد و استودیو', href: '/fa/about/' },
+  { label: 'رزومه', href: '/fa/resume/' },
+  { label: 'تماس', href: '/fa/contact/' },
+];
+
+const homeUrl = lang === 'en' ? '/' : '/fa/';
+const siteTitle = lang === 'en' ? 'Arash Ershadi' : 'آرش ارشادی';
+const siteRole = lang === 'en' ? 'Architectural Designer' : 'طراح معمار';
+---
+
+<header class="site-header hairline-border-b">
+  <div class="site-container header-inner">
+    <!-- Brand Identity -->
+    <a href={homeUrl} class="brand-link" aria-label={`${siteTitle} - ${siteRole}`}>
+      <span class="brand-name">{siteTitle}</span>
+      <span class="brand-divider">/</span>
+      <span class="brand-role">{siteRole}</span>
+    </a>
+
+    <!-- Mobile Navigation Toggle -->
+    <button
+      type="button"
+      class="mobile-nav-toggle"
+      aria-expanded="false"
+      aria-controls="primary-navigation"
+      aria-label={lang === 'en' ? 'Toggle navigation menu' : 'باز و بسته کردن منو'}
+      id="menu-toggle-btn"
+    >
+      <span class="menu-icon-bar"></span>
+      <span class="menu-icon-bar"></span>
+    </button>
+
+    <!-- Desktop Navigation & Language Switcher -->
+    <nav id="primary-navigation" class="primary-nav" aria-label={lang === 'en' ? 'Main' : 'اصلی'}>
+      <ul class="nav-list">
+        {navItems.map((item) => {
+          const isActive = currentPath === item.href || (item.href !== homeUrl && currentPath.startsWith(item.href));
+          return (
+            <li class="nav-item">
+              <a
+                href={item.href}
+                class={`nav-link ${isActive ? 'is-active' : ''}`}
+                aria-current={isActive ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+
+      <div class="nav-actions">
+        <LanguageSwitcher currentLang={lang} currentPath={currentPath} alternateUrl={alternateUrl} />
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Accessible mobile menu toggle
+  const toggleBtn = document.getElementById('menu-toggle-btn');
+  const nav = document.getElementById('primary-navigation');
+
+  if (toggleBtn && nav) {
+    toggleBtn.addEventListener('click', () => {
+      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+      nav.classList.toggle('is-open');
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('is-open');
+        toggleBtn.focus();
+      }
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: rgba(250, 249, 245, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background-color var(--transition-fast);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--space-4);
+  }
+
+  .brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text);
+    letter-spacing: 0.03em;
+  }
+
+  .brand-name {
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .brand-divider {
+    color: var(--color-text-light);
+  }
+
+  .brand-role {
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .primary-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .nav-link {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    position: relative;
+    padding-block: var(--space-1);
+    transition: color var(--transition-fast);
+  }
+
+  .nav-link:hover,
+  .nav-link.is-active {
+    color: var(--color-text);
+  }
+
+  .nav-link.is-active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    inset-inline-start: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-text);
+  }
+
+  .mobile-nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+  }
+
+  .menu-icon-bar {
+    width: 100%;
+    height: 1.5px;
+    background-color: var(--color-text);
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+  }
+
+  @media (max-width: 768px) {
+    .mobile-nav-toggle {
+      display: flex;
+    }
+
+    .primary-nav {
+      position: absolute;
+      top: 100%;
+      inset-inline-start: 0;
+      width: 100%;
+      background-color: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      flex-direction: column;
+      align-items: flex-start;
+      padding: var(--space-6) var(--gutter);
+      gap: var(--space-6);
+      display: none;
+    }
+
+    .primary-nav.is-open {
+      display: flex;
+    }
+
+    .nav-list {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+      width: 100%;
+    }
+
+    .nav-link {
+      font-size: var(--text-base);
+    }
+  }
+</style>

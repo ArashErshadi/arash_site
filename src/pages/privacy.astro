@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Privacy Policy | Arash Ershadi"
+  description="Privacy policy and data handling statement for the architectural monograph portfolio."
+  lang="en"
+  currentPath="/privacy/"
+>
+  <div class="site-container page-header">
+    <span class="text-label">Legal // Transparency</span>
+    <h1 class="page-title text-serif">Privacy Policy</h1>
+  </div>
+
+  <div class="site-container-narrow page-body">
+    <section class="privacy-section">
+      <h2 class="text-xl">1. Information Collection & Zero-Tracking Default</h2>
+      <p>
+        This portfolio website is designed as a static architectural monograph. We do not intentionally harvest, track, profile, or sell personal data.
+      </p>
+      <p>
+        No third-party tracking scripts, advertising pixels, or telemetry beacons are enabled by default.
+      </p>
+    </section>
+
+    <section class="privacy-section">
+      <h2 class="text-xl">2. Direct Voluntary Communications</h2>
+      <p>
+        If you contact us via email or submit a project inquiry through the contact form, your provided name, email, and project details are used exclusively for direct correspondence regarding architectural commissions or research collaboration.
+      </p>
+    </section>
+
+    <section class="privacy-section">
+      <h2 class="text-xl">3. Optional Analytics Integration</h2>
+      <p>
+        If Google Analytics is explicitly enabled by the site operator (via <code>PUBLIC_GA_MEASUREMENT_ID</code>), anonymized traffic data is gathered solely to understand aggregate readership. You can opt out of analytics tracking at any time using standard browser privacy extensions or enabling "Do Not Track" / Global Privacy Control.
+      </p>
+    </section>
+
+    <section class="privacy-section">
+      <h2 class="text-xl">4. Contact & Inquiries</h2>
+      <p>
+        For inquiries regarding data protection, please contact: <a href="mailto:arash.ershadi.arch@example.com" class="text-accent">arash.ershadi.arch@example.com</a>.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-8);
+  }
+
+  .page-title {
+    margin-top: var(--space-2);
+  }
+
+  .page-body {
+    padding-bottom: var(--space-24);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .privacy-section h2 {
+    margin-bottom: var(--space-3);
+  }
+
+  .privacy-section p {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-body);
+    margin-bottom: var(--space-3);
+  }
+</style>

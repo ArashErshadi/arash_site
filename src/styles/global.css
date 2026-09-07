@@ -1,0 +1,352 @@
+/* ==========================================================================
+   Architectural Designer Portfolio - Design System & Global Styles
+   ========================================================================== */
+
+/* @layer definition to manage specificity cleanly */
+@layer reset, tokens, base, typography, layout, components, utilities, print;
+
+@layer tokens {
+  :root {
+    /* Color Palette - Warm Architectural Paper & Charcoal */
+    --color-bg: #faf9f5;
+    --color-bg-subtle: #f3f1ec;
+    --color-surface: #ffffff;
+    --color-surface-hover: #f7f6f1;
+    --color-text: #1a1a19;
+    --color-text-body: #383836;
+    --color-text-muted: #73726e;
+    --color-text-light: #9c9a94;
+    --color-accent: #b85d3b;
+    --color-accent-hover: #9e4c2e;
+    --color-accent-subtle: rgba(184, 93, 59, 0.08);
+    --color-border: #e6e4dc;
+    --color-border-hairline: rgba(26, 26, 25, 0.12);
+    --color-border-dark: #2a2a28;
+
+    /* Typography Stacks */
+    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-serif: "Iowan Old Style", "Apple Garamond", "Baskerville", "Times New Roman", "Droid Serif", Times, "Source Serif Pro", serif;
+    --font-farsi: "Vazirmatn", "Shabnam", "Sahel", "Tahoma", "Arial", sans-serif;
+    --font-mono: "JetBrains Mono", "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+    /* Typography Scale */
+    --text-xs: 0.75rem;    /* 12px */
+    --text-sm: 0.875rem;   /* 14px */
+    --text-base: 1rem;     /* 16px */
+    --text-lg: 1.125rem;   /* 18px */
+    --text-xl: 1.25rem;    /* 20px */
+    --text-2xl: 1.5rem;    /* 24px */
+    --text-3xl: 1.875rem;  /* 30px */
+    --text-4xl: 2.25rem;   /* 36px */
+    --text-5xl: 3rem;      /* 48px */
+    --text-6xl: 3.75rem;   /* 60px */
+
+    /* Line Heights */
+    --leading-tight: 1.15;
+    --leading-snug: 1.35;
+    --leading-normal: 1.6;
+    --leading-relaxed: 1.75;
+
+    /* Spacing Scale */
+    --space-1: 0.25rem;   /* 4px */
+    --space-2: 0.5rem;    /* 8px */
+    --space-3: 0.75rem;   /* 12px */
+    --space-4: 1rem;      /* 16px */
+    --space-6: 1.5rem;    /* 24px */
+    --space-8: 2rem;      /* 32px */
+    --space-12: 3rem;     /* 48px */
+    --space-16: 4rem;     /* 64px */
+    --space-24: 6rem;     /* 96px */
+    --space-32: 8rem;     /* 128px */
+
+    /* Layout Containers */
+    --container-max: 1320px;
+    --container-narrow: 840px;
+    --gutter: clamp(1rem, 4vw, 3rem);
+
+    /* Transitions */
+    --transition-fast: 150ms ease-out;
+    --transition-base: 250ms ease-out;
+    --transition-slow: 400ms ease-out;
+
+    /* Focus Rings */
+    --focus-ring: 2px solid var(--color-accent);
+    --focus-offset: 3px;
+  }
+
+  /* RTL Specific Tokens */
+  [dir="rtl"] {
+    --font-sans: var(--font-farsi);
+    --leading-normal: 1.75;
+    --leading-relaxed: 1.9;
+  }
+}
+
+@layer reset {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  input, button, textarea, select {
+    font: inherit;
+    color: inherit;
+  }
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ul, ol {
+    list-style: none;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text-body);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Headings */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-text);
+    font-weight: 500;
+    line-height: var(--leading-tight);
+    letter-spacing: -0.015em;
+  }
+
+  h1 { font-size: clamp(2rem, 5vw, var(--text-5xl)); font-family: var(--font-serif); }
+  h2 { font-size: clamp(1.5rem, 3.5vw, var(--text-3xl)); }
+  h3 { font-size: clamp(1.25rem, 2.5vw, var(--text-2xl)); }
+  h4 { font-size: var(--text-xl); }
+
+  [dir="rtl"] h1,
+  [dir="rtl"] h2,
+  [dir="rtl"] h3,
+  [dir="rtl"] h4 {
+    font-family: var(--font-farsi);
+    letter-spacing: 0;
+  }
+
+  p {
+    margin-bottom: var(--space-4);
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Accessibility Focus */
+  :focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-offset);
+  }
+
+  /* Skip to content link */
+  .skip-to-content {
+    position: absolute;
+    top: var(--space-3);
+    inset-inline-start: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    z-index: 9999;
+    transform: translateY(-150%);
+    transition: transform var(--transition-fast);
+  }
+
+  .skip-to-content:focus {
+    transform: translateY(0);
+  }
+}
+
+@layer layout {
+  .site-container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .site-container-narrow {
+    width: 100%;
+    max-width: var(--container-narrow);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .site-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--space-6);
+  }
+
+  .section-divider {
+    border: 0;
+    height: 1px;
+    background-color: var(--color-border-hairline);
+    margin-block: var(--space-12);
+  }
+}
+
+@layer utilities {
+  .text-serif { font-family: var(--font-serif); }
+  .text-mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .text-muted { color: var(--color-text-muted); }
+  .text-accent { color: var(--color-accent); }
+  .text-label {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+  }
+  .tabular-nums { font-variant-numeric: tabular-nums; }
+  .hairline-border-b { border-bottom: 1px solid var(--color-border-hairline); }
+  .hairline-border-t { border-top: 1px solid var(--color-border-hairline); }
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+@layer components {
+  /* Editorial Button / CTA */
+  .btn-editorial {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .btn-editorial:hover {
+    background-color: var(--color-accent);
+  }
+
+  .btn-editorial-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: calc(var(--space-3) - 1px) calc(var(--space-6) - 1px);
+    background-color: transparent;
+    color: var(--color-text);
+    border: 1px solid var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-editorial-outline:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+}
+
+/* Reduced Motion Safeguards */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Dedicated Print Stylesheet */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+  }
+
+  header, footer, nav, .skip-to-content, .btn-editorial, .no-print {
+    display: none !important;
+  }
+
+  .site-container, .site-container-narrow {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  a {
+    color: #000000 !important;
+    text-decoration: underline !important;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 85%;
+  }
+
+  a[href^="/"]:after {
+    content: "";
+  }
+
+  .section-divider {
+    border-color: #cccccc !important;
+    margin-block: 1rem !important;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
+}

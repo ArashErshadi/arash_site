@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Inquiry Received | Arash Ershadi"
+  description="Thank you for reaching out. Your architectural inquiry has been recorded."
+  lang="en"
+  currentPath="/thank-you/"
+>
+  <div class="site-container-narrow status-page">
+    <span class="text-label">Inquiry Acknowledgment</span>
+    <h1 class="status-title text-serif">Thank You for Your Message</h1>
+    <p class="status-lead text-muted">
+      Your inquiry has been received. We review each collaboration request and architectural brief thoroughly and will respond via email.
+    </p>
+    <div class="status-actions">
+      <a href="/" class="btn-editorial">
+        <span>Return to Homepage</span>
+        <span aria-hidden="true">→</span>
+      </a>
+      <a href="/projects/" class="btn-editorial-outline">
+        <span>Browse Projects</span>
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .status-page {
+    padding-top: var(--space-24);
+    padding-bottom: var(--space-24);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .status-title {
+    font-size: var(--text-3xl);
+  }
+
+  .status-lead {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-4);
+  }
+
+  .status-actions {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+</style>

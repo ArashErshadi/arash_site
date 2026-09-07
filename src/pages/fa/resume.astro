@@ -1,0 +1,334 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  'name': 'رزومه و سوابق حرفه‌ای آرش ارشادی',
+  'mainEntity': {
+    '@type': 'Person',
+    'name': 'آرش ارشادی',
+    'jobTitle': 'طراح معمار'
+  }
+};
+---
+
+<BaseLayout
+  title="رزومه و سوابق حرفه‌ای | آرش ارشادی"
+  description="سوابق حرفه‌ای، خط زمانی پروژه‌ها، تحصیلات آکادمیک، مهارت‌های نرم‌افزاری و پژوهش‌های معماری آرش ارشادی."
+  lang="fa"
+  currentPath="/fa/resume/"
+  structuredData={structuredData}
+>
+  <div class="site-container resume-page-header">
+    <div class="resume-header-grid site-grid">
+      <div class="resume-title-col">
+        <span class="text-label">کتابچه سوابق و تجربیات معماری // ویرایش ۱۴۰۴</span>
+        <h1 class="resume-name">آرش ارشادی</h1>
+        <p class="resume-role text-muted">طراح معمار و پژوهشگر ساختارهای فضایی</p>
+      </div>
+      <div class="resume-actions-col no-print">
+        <a href="/resume-fa.pdf" download="Arash_ershadi_Resume_FA_1404.pdf" class="btn-editorial">
+          <span>دریافت فایل رزومه (PDF)</span>
+          <span aria-hidden="true">↓</span>
+        </a>
+        <button type="button" onclick="window.print()" class="btn-editorial-outline">
+          <span>چاپ نسخه مونوگراف</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="site-container resume-body site-grid">
+    <!-- Main Content Column -->
+    <div class="resume-main-col">
+      <!-- Profile Summary -->
+      <section class="resume-section">
+        <h2 class="resume-section-title hairline-border-b">۰۱ // معرفی و رویکرد طراحی</h2>
+        <p class="resume-summary">
+          طراح معمار با بیش از ۶ سال تجربه تخصصی در زمینه بهینه‌سازی اقلیمی غیرفعال، سامانه‌های خشت فشرده و بازآفرینی سازه‌های صنعتی کهن. مسلط بر تلفیق شبیه‌سازی‌های اقلیمی و مدلسازی پارامتریک با تکنیک‌های اجرایی و ساخت ماکت‌های مقیاس‌دار.
+        </p>
+      </section>
+
+      <!-- Professional Experience Timeline -->
+      <section class="resume-section">
+        <h2 class="resume-section-title hairline-border-b">۰۲ // سوابق حرفه‌ای و پروژه‌ها</h2>
+        <div class="timeline-list">
+          <article class="timeline-item">
+            <div class="timeline-meta">
+              <span class="timeline-period text-mono text-xs">۱۴۰۲ — اکنون</span>
+              <span class="timeline-location text-label">تهران</span>
+            </div>
+            <div class="timeline-content">
+              <h3 class="timeline-role">طراح ارشد معماری</h3>
+              <p class="timeline-company text-muted text-sm">استودیو ژئو-تکتونیک</p>
+              <ul class="timeline-bullets text-sm">
+                <li>مدیریت طراحی مفهومی و آزمون‌های کالبدی مرکز فرهنگی کویر و پاویون آب یزد.</li>
+                <li>هدایت شبیه‌سازی‌های تونل باد و تهویه طبیعی با ابزارهای ClimateStudio و Grasshopper.</li>
+                <li>تولید اسناد فنی، مقاطع اجرایی و نقشه‌های فاز دو سازه‌های بازآفرینی‌شده.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-meta">
+              <span class="timeline-period text-mono text-xs">۱۳۹۹ — ۱۴۰۲</span>
+              <span class="timeline-location text-label">تبریز</span>
+            </div>
+            <div class="timeline-content">
+              <h3 class="timeline-role">معمار پروژه و پژوهشگر میراث صنعتی</h3>
+              <p class="timeline-company text-muted text-sm">لابراتوار حفاظت فضایی تبریز</p>
+              <ul class="timeline-bullets text-sm">
+                <li>نظارت بر رولوه و طرح‌های استحکام‌بخشی سازه‌ای کارخانجات صنعتی دهه ۱۳۱۰.</li>
+                <li>هماهنگی تیم‌های چندرشته‌ای در پروژه بازآفرینی کارخانه ابریشم به مرکز هنرهای معاصر.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-meta">
+              <span class="timeline-period text-mono text-xs">۱۳۹۷ — ۱۳۹۹</span>
+              <span class="timeline-location text-label">اصفهان</span>
+            </div>
+            <div class="timeline-content">
+              <h3 class="timeline-role">طراح معماری و منظر</h3>
+              <p class="timeline-company text-muted text-sm">استودیو بوم‌شناسی شهری اصفهان</p>
+              <ul class="timeline-bullets text-sm">
+                <li>آماده‌سازی مدارک مسابقه و تحلیل‌های هیدرولوژیکی طرح پارک خطی ساحلی اصفهان.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Academic Background -->
+      <section class="resume-section">
+        <h2 class="resume-section-title hairline-border-b">۰۳ // تحصیلات دانشگاهی</h2>
+        <div class="timeline-list">
+          <article class="timeline-item">
+            <div class="timeline-meta">
+              <span class="timeline-period text-mono text-xs">۱۳۹۵ — ۱۳۹۷</span>
+            </div>
+            <div class="timeline-content">
+              <h3 class="timeline-role">کارشناسی ارشد معماری (M.Arch)</h3>
+              <p class="timeline-company text-muted text-sm">دانشگاه تهران — گرایش: معماری اقلیمی و سامانه‌های بسترگرا</p>
+              <p class="text-xs text-muted">فارغ‌التحصیل ممتاز / رساله پیرامون سامانه‌های سرمایش زیرزمینی و بادگیرهای نوین.</p>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-meta">
+              <span class="timeline-period text-mono text-xs">۱۳۹۱ — ۱۳۹۵</span>
+            </div>
+            <div class="timeline-content">
+              <h3 class="timeline-role">کارشناسی مهندسی معماری (B.Arch)</h3>
+              <p class="timeline-company text-muted text-sm">پردیس هنرهای زیبا</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Honors & Publications -->
+      <section class="resume-section">
+        <h2 class="resume-section-title hairline-border-b">۰۴ // جوایز، مقالات و نمایشگاه‌ها</h2>
+        <ul class="resume-bullet-list text-sm">
+          <li><strong>رتبه اول:</strong> مسابقه ملی طراحی منظر و فضای همگانی حاشیه رودخانه اصفهان (۱۴۰۲).</li>
+          <li><strong>نمایشگاه:</strong> تقدیر ویژه پاویون ایران در بی‌ینال معماری ونیز (۱۴۰۰).</li>
+          <li><strong>مقاله:</strong> <em>«ترمودینامیک بادگیر: راهبردهای آیرودینامیک در معماری خشت فشرده»</em>، فصلنامه علمی معماری و بستر (۱۴۰۱).</li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Sidebar Column -->
+    <aside class="resume-sidebar-col">
+      <div class="resume-side-card">
+        <h3 class="side-card-title text-label">راه‌های ارتباطی</h3>
+        <ul class="side-contact-list text-sm">
+          <li><span class="text-muted">موقعیت:</span> تهران / اصفهان</li>
+          <li><span class="text-muted">ایمیل:</span> <a href="/fa/contact/" class="text-accent">arash.ershadi.arch@example.com</a></li>
+          <li><span class="text-muted">وبگاه:</span> <a href="https://mg.github.io/fa/">https://mg.github.io/fa/</a></li>
+        </ul>
+      </div>
+
+      <div class="resume-side-card">
+        <h3 class="side-card-title text-label">نرم‌افزارها و ابزارها</h3>
+        <ul class="skills-tag-list text-xs text-mono">
+          <li>Rhino 3D</li>
+          <li>Grasshopper</li>
+          <li>Revit</li>
+          <li>AutoCAD</li>
+          <li>ClimateStudio</li>
+          <li>Ladybug Tools</li>
+          <li>Enscape</li>
+          <li>Adobe Creative Cloud</li>
+          <li>GIS QGIS</li>
+          <li>ساخت ماکت‌های فیزیکی</li>
+        </ul>
+      </div>
+
+      <div class="resume-side-card">
+        <h3 class="side-card-title text-label">زبان‌ها</h3>
+        <ul class="side-contact-list text-sm">
+          <li><strong>فارسی:</strong> زبان مادری</li>
+          <li><strong>انگلیسی:</strong> تسلط کامل حرفه‌ای</li>
+          <li><strong>فرانسوی:</strong> آشنایی کاربردی (B2)</li>
+        </ul>
+      </div>
+
+      <div class="resume-side-card">
+        <h3 class="side-card-title text-label">زمینه‌های تخصص</h3>
+        <ul class="skills-tag-list text-xs">
+          <li>آیرودینامیک و سرمایش غیرفعال</li>
+          <li>معماری خشت فشرده و آجرکاری</li>
+          <li>بازآفرینی سازه‌های صنعتی</li>
+          <li>تحلیل‌های تابش و اقلیم</li>
+          <li>ترسیم اسناد فنی و مونوگراف</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .resume-page-header {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-12);
+  }
+
+  .resume-title-col {
+    grid-column: span 8;
+  }
+
+  .resume-actions-col {
+    grid-column: span 4;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .resume-name {
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-1);
+    font-weight: 600;
+  }
+
+  .resume-role {
+    font-size: var(--text-lg);
+  }
+
+  .resume-body {
+    padding-bottom: var(--space-24);
+  }
+
+  .resume-main-col {
+    grid-column: span 8;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .resume-sidebar-col {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .resume-section-title {
+    font-size: var(--text-xl);
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-6);
+    font-weight: 600;
+  }
+
+  .resume-summary {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+  }
+
+  .timeline-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: var(--space-6);
+  }
+
+  .timeline-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .timeline-role {
+    font-size: var(--text-base);
+    font-weight: 600;
+  }
+
+  .timeline-company {
+    margin-bottom: var(--space-3);
+  }
+
+  .timeline-bullets {
+    list-style: disc;
+    margin-inline-start: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    color: var(--color-text-body);
+  }
+
+  .resume-bullet-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    list-style: square;
+    margin-inline-start: var(--space-4);
+  }
+
+  .resume-side-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: var(--space-6);
+  }
+
+  .side-card-title {
+    display: block;
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border-hairline);
+    font-weight: 600;
+  }
+
+  .side-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .skills-tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .skills-tag-list li {
+    background-color: var(--color-bg-subtle);
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--color-border);
+  }
+
+  @media (max-width: 768px) {
+    .resume-title-col { grid-column: span 12; }
+    .resume-actions-col { grid-column: span 12; justify-content: flex-start; margin-top: var(--space-4); }
+    .resume-main-col { grid-column: span 12; }
+    .resume-sidebar-col { grid-column: span 12; }
+    .timeline-item { grid-template-columns: 1fr; gap: var(--space-2); }
+  }
+</style>

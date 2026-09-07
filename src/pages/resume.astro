@@ -1,0 +1,333 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  'name': 'Arash Ershadi Curriculum Vitae',
+  'mainEntity': {
+    '@type': 'Person',
+    'name': 'Arash Ershadi',
+    'jobTitle': 'Architectural Designer',
+    'alumniOf': 'Tehran School of Architecture'
+  }
+};
+---
+
+<BaseLayout
+  title="Résumé & Curriculum Vitae | Arash Ershadi"
+  description="Professional curriculum vitae, architectural experience timeline, academic background, software proficiencies, and publications."
+  lang="en"
+  currentPath="/resume/"
+  structuredData={structuredData}
+>
+  <div class="site-container resume-page-header">
+    <div class="resume-header-grid site-grid">
+      <div class="resume-title-col">
+        <span class="text-label">Curriculum Vitae // Monograph Edition</span>
+        <h1 class="resume-name">Arash Ershadi</h1>
+        <p class="resume-role text-muted">Architectural Designer & Spatial Researcher</p>
+      </div>
+      <div class="resume-actions-col no-print">
+        <a href="/resume-en.pdf" download="Arash_ershadi_Resume_2026.pdf" class="btn-editorial">
+          <span>Download Résumé (PDF)</span>
+          <span aria-hidden="true">↓</span>
+        </a>
+        <button type="button" onclick="window.print()" class="btn-editorial-outline">
+          <span>Print Monograph</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="site-container resume-body site-grid">
+    <!-- Main Content Column -->
+    <div class="resume-main-col">
+      <!-- Profile Summary -->
+      <section class="resume-section">
+        <h2 class="resume-section-title text-serif hairline-border-b">01 // Profile & Practice Statement</h2>
+        <p class="resume-summary">
+          Architectural designer with 6+ years of specialized experience in passive climatic performance, tectonic earth masonry, and adaptive industrial conversions. Skilled in translating rigorous environmental analysis and parametric computational modeling into constructible architectural plates and physical prototypes.
+        </p>
+      </section>
+
+      <!-- Professional Experience Timeline -->
+      <section class="resume-section">
+        <h2 class="resume-section-title text-serif hairline-border-b">02 // Professional Experience</h2>
+        <div class="timeline-list">
+          <article class="timeline-item">
+            <div class="timeline-meta">
+              <span class="timeline-period text-mono text-xs">2023 — Present</span>
+              <span class="timeline-location text-label">Tehran, Iran</span>
+            </div>
+            <div class="timeline-content">
+              <h3 class="timeline-role">Lead Architectural Designer</h3>
+              <p class="timeline-company text-muted text-sm">Studio Geo-Tectonics</p>
+              <ul class="timeline-bullets text-sm">
+                <li>Directed conceptual design and physical testing for the Desert Cultural Center in Yazd.</li>
+                <li>Led environmental wind-tunnel simulation models using ClimateStudio and Grasshopper.</li>
+                <li>Authored technical drawings and construction documentation for adaptive industrial facilities.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-meta">
+              <span class="timeline-period text-mono text-xs">2020 — 2023</span>
+              <span class="timeline-location text-label">Tabriz, Iran</span>
+            </div>
+            <div class="timeline-content">
+              <h3 class="timeline-role">Project Architect & Heritage Researcher</h3>
+              <p class="timeline-company text-muted text-sm">Tabriz Spatial Conservation Lab</p>
+              <ul class="timeline-bullets text-sm">
+                <li>Supervised measured surveys and structural remediation plans for 1930s industrial heritage buildings.</li>
+                <li>Coordinated multidisciplinary engineering teams for the Silk Mill Contemporary Arts Hub.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-meta">
+              <span class="timeline-period text-mono text-xs">2018 — 2020</span>
+              <span class="timeline-location text-label">Isfahan, Iran</span>
+            </div>
+            <div class="timeline-content">
+              <h3 class="timeline-role">Junior Architectural Designer</h3>
+              <p class="timeline-company text-muted text-sm">Isfahan Urban Ecology Studio</p>
+              <ul class="timeline-bullets text-sm">
+                <li>Prepared 3D visualization, physical casting models, and competition drawing suites for riparian public-realm interventions.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Academic Background -->
+      <section class="resume-section">
+        <h2 class="resume-section-title text-serif hairline-border-b">03 // Academic Education</h2>
+        <div class="timeline-list">
+          <article class="timeline-item">
+            <div class="timeline-meta">
+              <span class="timeline-period text-mono text-xs">2016 — 2018</span>
+            </div>
+            <div class="timeline-content">
+              <h3 class="timeline-role">Master of Architecture (M.Arch)</h3>
+              <p class="timeline-company text-muted text-sm">University of Tehran — Focus: Climate-Responsive Vernacular Tectonics</p>
+              <p class="text-xs text-muted">Graduated with Highest Distinction / Thesis on Subterranean Passive Cooling.</p>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-meta">
+              <span class="timeline-period text-mono text-xs">2012 — 2016</span>
+            </div>
+            <div class="timeline-content">
+              <h3 class="timeline-role">Bachelor of Architectural Studies (B.Arch)</h3>
+              <p class="timeline-company text-muted text-sm">Faculty of Architecture and Fine Arts</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Honors & Publications -->
+      <section class="resume-section">
+        <h2 class="resume-section-title text-serif hairline-border-b">04 // Honors & Exhibitions</h2>
+        <ul class="resume-bullet-list text-sm">
+          <li><strong>First Prize:</strong> Isfahan Seasonal Riverfront Public Realm National Design Competition (2023).</li>
+          <li><strong>Exhibition:</strong> Venice Biennale of Architecture (Persian Pavilion Special Mention, 2021).</li>
+          <li><strong>Publication:</strong> <em>"Thermodynamics of the Badgir: Aerodynamic Strategies in Compressed Earth Architecture"</em>, Architectural Epistemology Quarterly (2022).</li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Sidebar Skills & Details Column -->
+    <aside class="resume-sidebar-col">
+      <div class="resume-side-card">
+        <h3 class="side-card-title text-label">Direct Contact</h3>
+        <ul class="side-contact-list text-sm">
+          <li><span class="text-muted">Location:</span> Tehran / Isfahan</li>
+          <li><span class="text-muted">Email:</span> <a href="/contact/" class="text-accent">arash.ershadi.arch@example.com</a></li>
+          <li><span class="text-muted">Portfolio:</span> <a href="https://mg.github.io">https://mg.github.io</a></li>
+        </ul>
+      </div>
+
+      <div class="resume-side-card">
+        <h3 class="side-card-title text-label">Software & Tools</h3>
+        <ul class="skills-tag-list text-xs text-mono">
+          <li>Rhino 3D</li>
+          <li>Grasshopper</li>
+          <li>Revit</li>
+          <li>AutoCAD</li>
+          <li>ClimateStudio</li>
+          <li>Ladybug Tools</li>
+          <li>Enscape</li>
+          <li>Adobe Creative Cloud</li>
+          <li>GIS QGIS</li>
+          <li>Physical Model Fabrication</li>
+        </ul>
+      </div>
+
+      <div class="resume-side-card">
+        <h3 class="side-card-title text-label">Languages</h3>
+        <ul class="side-contact-list text-sm">
+          <li><strong>Persian / Farsi:</strong> Native</li>
+          <li><strong>English:</strong> Full Professional Fluency</li>
+          <li><strong>French:</strong> Working Proficiency (B2)</li>
+        </ul>
+      </div>
+
+      <div class="resume-side-card">
+        <h3 class="side-card-title text-label">Areas of Expertise</h3>
+        <ul class="skills-tag-list text-xs">
+          <li>Passive Aerodynamics</li>
+          <li>Vernacular Tectonics</li>
+          <li>Rammed Earth & Masonry</li>
+          <li>Adaptive Reuse</li>
+          <li>Environmental Analysis</li>
+          <li>Monograph Plate Drafting</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .resume-page-header {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-12);
+  }
+
+  .resume-title-col {
+    grid-column: span 8;
+  }
+
+  .resume-actions-col {
+    grid-column: span 4;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .resume-name {
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-1);
+  }
+
+  .resume-role {
+    font-size: var(--text-lg);
+  }
+
+  .resume-body {
+    padding-bottom: var(--space-24);
+  }
+
+  .resume-main-col {
+    grid-column: span 8;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .resume-sidebar-col {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .resume-section-title {
+    font-size: var(--text-xl);
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+
+  .resume-summary {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+  }
+
+  .timeline-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: var(--space-6);
+  }
+
+  .timeline-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .timeline-role {
+    font-size: var(--text-base);
+    font-weight: 500;
+  }
+
+  .timeline-company {
+    margin-bottom: var(--space-3);
+  }
+
+  .timeline-bullets {
+    list-style: disc;
+    margin-inline-start: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    color: var(--color-text-body);
+  }
+
+  .resume-bullet-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    list-style: square;
+    margin-inline-start: var(--space-4);
+  }
+
+  .resume-side-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: var(--space-6);
+  }
+
+  .side-card-title {
+    display: block;
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border-hairline);
+  }
+
+  .side-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .skills-tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .skills-tag-list li {
+    background-color: var(--color-bg-subtle);
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--color-border);
+  }
+
+  @media (max-width: 768px) {
+    .resume-title-col { grid-column: span 12; }
+    .resume-actions-col { grid-column: span 12; justify-content: flex-start; margin-top: var(--space-4); }
+    .resume-main-col { grid-column: span 12; }
+    .resume-sidebar-col { grid-column: span 12; }
+    .timeline-item { grid-template-columns: 1fr; gap: var(--space-2); }
+  }
+</style>

@@ -1,0 +1,153 @@
+---
+import type { FormattedProject } from '../utils/projects';
+import type { Locale } from '../utils/i18n';
+
+interface Props {
+  project: FormattedProject;
+  locale?: Locale;
+  index?: number;
+}
+
+const { project, locale = 'en', index = 0 } = Astro.props;
+const projectNumber = String(project.order || index + 1).padStart(2, '0');
+const projectUrl = locale === 'en' ? `/projects/${project.slug}/` : `/fa/projects/${project.slug}/`;
+const isRtl = locale === 'fa';
+---
+
+<article class="project-card">
+  <a href={projectUrl} class="project-card-link" aria-label={`${project.content.title} - ${project.typology}`}>
+    <div class="project-card-image-wrap">
+      <img
+        src={project.cover}
+        alt={project.content.title}
+        width="1600"
+        height="1000"
+        loading={index === 0 ? 'eager' : 'lazy'}
+        decoding="async"
+        class="project-card-img"
+      />
+      <div class="project-card-badge text-mono text-xs">
+        <span>{projectNumber}</span>
+      </div>
+    </div>
+
+    <div class="project-card-meta-bar hairline-border-b">
+      <span class="project-card-typology text-label">{project.typology}</span>
+      <span class="project-card-year text-mono text-xs text-muted">{project.year}</span>
+    </div>
+
+    <div class="project-card-body">
+      <h3 class="project-card-title">{project.content.title}</h3>
+      <p class="project-card-excerpt text-muted">{project.content.excerpt}</p>
+      <div class="project-card-footer">
+        <span class="project-card-location text-label">{project.location}</span>
+        <span class="project-card-arrow" aria-hidden="true">{isRtl ? '←' : '→'}</span>
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+  }
+
+  .project-card:hover {
+    border-color: var(--color-text);
+    transform: translateY(-2px);
+  }
+
+  .project-card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .project-card-image-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background-color: var(--color-bg-subtle);
+  }
+
+  .project-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .project-card:hover .project-card-img {
+    transform: scale(1.02);
+  }
+
+  .project-card-badge {
+    position: absolute;
+    top: var(--space-3);
+    inset-inline-start: var(--space-3);
+    background-color: rgba(26, 26, 25, 0.85);
+    color: var(--color-bg);
+    padding: 2px 8px;
+    font-weight: 500;
+  }
+
+  .project-card-meta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-bg-subtle);
+  }
+
+  .project-card-body {
+    padding: var(--space-6) var(--space-4) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .project-card-title {
+    font-size: var(--text-xl);
+    font-weight: 500;
+    margin-bottom: var(--space-2);
+    transition: color var(--transition-fast);
+  }
+
+  .project-card:hover .project-card-title {
+    color: var(--color-accent);
+  }
+
+  .project-card-excerpt {
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-6);
+    flex-grow: 1;
+  }
+
+  .project-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border-hairline);
+  }
+
+  .project-card-arrow {
+    font-size: var(--text-base);
+    color: var(--color-text);
+    transition: transform var(--transition-fast);
+  }
+
+  .project-card:hover .project-card-arrow {
+    transform: translateX(4px);
+  }
+
+  [dir="rtl"] .project-card:hover .project-card-arrow {
+    transform: translateX(-4px);
+  }
+</style>

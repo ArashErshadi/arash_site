@@ -1,0 +1,281 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getFeaturedProjects } from '../utils/projects';
+import { t } from '../utils/i18n';
+
+const featuredProjects = await getFeaturedProjects('en');
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  'mainEntity': {
+    '@type': 'Person',
+    'name': 'Arash Ershadi',
+    'jobTitle': 'Architectural Designer',
+    'description': 'Architectural designer specializing in climate-responsive cultural centers, industrial adaptive reuse, and contextual landscape monographs.',
+    'url': 'https://mg.github.io/',
+    'sameAs': [
+      'https://github.com/',
+      'https://linkedin.com/'
+    ]
+  }
+};
+---
+
+<BaseLayout
+  title="Arash Ershadi | Architectural Designer"
+  description="Editorial architectural portfolio focusing on climate-responsive cultural centers, adaptive reuse, and contextual spatial interventions."
+  lang="en"
+  currentPath="/"
+  structuredData={structuredData}
+>
+  <!-- Hero Monograph Section -->
+  <section class="hero-section">
+    <div class="site-container">
+      <div class="hero-grid site-grid">
+        <div class="hero-content">
+          <span class="hero-eyebrow text-label">Architectural Monograph // Edition 2026</span>
+          <h1 class="hero-title">
+            Spatial structures shaped by climate, material restraint, and historical memory.
+          </h1>
+          <p class="hero-statement text-muted">
+            Independent practice investigating contemporary tectonic systems, passive climatic ventilation, and the adaptive reincarnation of neglected industrial and vernacular heritage.
+          </p>
+          <div class="hero-actions">
+            <a href="/projects/" class="btn-editorial">
+              <span>Explore Selected Works</span>
+              <span aria-hidden="true">→</span>
+            </a>
+            <a href="/about/" class="btn-editorial-outline">
+              <span>Studio Practice</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-meta-panel">
+          <div class="hero-meta-block hairline-border-b">
+            <span class="text-label">Discipline</span>
+            <p class="hero-meta-val">Architectural Design, Spatial Research & Tectonics</p>
+          </div>
+          <div class="hero-meta-block hairline-border-b">
+            <span class="text-label">Focus Typologies</span>
+            <p class="hero-meta-val">Cultural Pavilions, Adaptive Reuse, Public Landscape</p>
+          </div>
+          <div class="hero-meta-block">
+            <span class="text-label">Direct Inquiry</span>
+            <p class="hero-meta-val">
+              <a href="/contact/" class="text-accent">arash.ershadi.arch@example.com</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider site-container" />
+
+  <!-- Selected Projects Grid -->
+  <section class="selected-projects-section">
+    <div class="site-container">
+      <div class="section-header">
+        <div>
+          <span class="text-label">01 // Portfolio Selection</span>
+          <h2 class="section-title">Selected Architectural Projects</h2>
+        </div>
+        <a href="/projects/" class="section-link text-sm">
+          <span>View all projects ({featuredProjects.length})</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="projects-grid">
+        {featuredProjects.map((project, index) => (
+          <ProjectCard project={project} locale="en" index={index} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider site-container" />
+
+  <!-- Practice / Approach Snapshot -->
+  <section class="practice-snapshot-section">
+    <div class="site-container">
+      <div class="site-grid">
+        <div class="practice-col-intro">
+          <span class="text-label">02 // Spatial Philosophy</span>
+          <h2 class="practice-heading text-serif">Architecture as a measured response to climate & geography.</h2>
+        </div>
+
+        <div class="practice-col-details">
+          <p class="practice-text">
+            Our methodology does not impose foreign formal idioms onto landscapes. Instead, each project commences with deep environmental archaeology: mapping solar angles, prevailing air currents, diurnal thermal swings, and local masonry traditions.
+          </p>
+          <div class="practice-points-grid">
+            <div class="practice-point hairline-border-t">
+              <span class="text-mono text-xs text-accent">01 / Passive Aerodynamics</span>
+              <p class="text-sm text-muted">Harnessing natural air pressure differentials and windcatchers to eliminate mechanical dependence.</p>
+            </div>
+            <div class="practice-point hairline-border-t">
+              <span class="text-mono text-xs text-accent">02 / Material Honesty</span>
+              <p class="text-sm text-muted">Exposing rammed earth, timber joinery, and desalted lime-stabilized brickwork.</p>
+            </div>
+          </div>
+          <div class="practice-cta">
+            <a href="/about/" class="btn-editorial-outline">
+              <span>Read Full Practice Statement</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero-section {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-8);
+  }
+
+  .hero-grid {
+    row-gap: var(--space-8);
+  }
+
+  .hero-content {
+    grid-column: span 8;
+  }
+
+  .hero-meta-panel {
+    grid-column: span 4;
+    background-color: var(--color-bg-subtle);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .hero-eyebrow {
+    display: block;
+    margin-bottom: var(--space-3);
+  }
+
+  .hero-title {
+    margin-bottom: var(--space-6);
+    font-weight: 400;
+  }
+
+  .hero-statement {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    max-width: 680px;
+    margin-bottom: var(--space-8);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .hero-meta-block {
+    padding-bottom: var(--space-3);
+  }
+
+  .hero-meta-val {
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    font-weight: 500;
+    margin-top: var(--space-1);
+    margin-bottom: 0;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: var(--space-8);
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .section-title {
+    font-size: var(--text-3xl);
+    font-family: var(--font-serif);
+    margin-top: var(--space-1);
+  }
+
+  .section-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+    font-weight: 500;
+    transition: color var(--transition-fast);
+  }
+
+  .section-link:hover {
+    color: var(--color-accent);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+
+  .practice-col-intro {
+    grid-column: span 5;
+  }
+
+  .practice-heading {
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    line-height: var(--leading-snug);
+    margin-top: var(--space-2);
+  }
+
+  .practice-col-details {
+    grid-column: span 7;
+  }
+
+  .practice-text {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-body);
+    margin-bottom: var(--space-8);
+  }
+
+  .practice-points-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+
+  .practice-point {
+    padding-top: var(--space-4);
+  }
+
+  .practice-point span {
+    display: block;
+    margin-bottom: var(--space-2);
+    font-weight: 500;
+  }
+
+  @media (max-width: 1024px) {
+    .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .hero-content { grid-column: span 12; }
+    .hero-meta-panel { grid-column: span 12; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .practice-col-intro { grid-column: span 12; }
+    .practice-col-details { grid-column: span 12; }
+    .practice-points-grid { grid-template-columns: 1fr; }
+  }
+</style>

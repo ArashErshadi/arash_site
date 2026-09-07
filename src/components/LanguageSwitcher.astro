@@ -1,0 +1,60 @@
+---
+interface Props {
+  currentLang: 'en' | 'fa';
+  currentPath?: string;
+  alternateUrl?: string;
+  className?: string;
+}
+
+const { currentLang, currentPath = '/', alternateUrl, className = '' } = Astro.props;
+
+// Determine target language and link
+const targetLang = currentLang === 'en' ? 'fa' : 'en';
+const label = currentLang === 'en' ? 'FA (فارسی)' : 'EN (English)';
+const ariaLabel = currentLang === 'en' ? 'تغییر زبان به فارسی' : 'Switch language to English';
+
+let targetUrl = alternateUrl;
+if (!targetUrl) {
+  if (currentLang === 'en') {
+    // English to Farsi: prefix with /fa
+    targetUrl = currentPath === '/' ? '/fa/' : `/fa${currentPath.endsWith('/') ? currentPath : currentPath + '/'}`;
+  } else {
+    // Farsi to English: strip /fa
+    const stripped = currentPath.replace(/^\/fa(\/|$)/, '/');
+    targetUrl = stripped.endsWith('/') ? stripped : `${stripped}/`;
+  }
+}
+---
+
+<a
+  href={targetUrl}
+  class={`lang-switcher ${className}`}
+  lang={targetLang}
+  dir={targetLang === 'fa' ? 'rtl' : 'ltr'}
+  aria-label={ariaLabel}
+  title={ariaLabel}
+>
+  <span class="lang-text">{label}</span>
+</a>
+
+<style>
+  .lang-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-xs);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-fast);
+  }
+
+  .lang-switcher:hover {
+    color: var(--color-text);
+    border-color: var(--color-text);
+    background-color: var(--color-surface-hover);
+  }
+</style>

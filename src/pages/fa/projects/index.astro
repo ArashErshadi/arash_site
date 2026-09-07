@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProjectCard from '../../../components/ProjectCard.astro';
+import ProjectFilters from '../../../components/ProjectFilters.astro';
+import { getProjects } from '../../../utils/projects';
+
+const projects = await getProjects('fa');
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  'name': 'آرشیو پروژه‌های معماری',
+  'description': 'آرشیو جامع پروژه‌های معماری، بازآفرینی سازه‌های صنعتی و مداخلات منظر شهری آرش ارشادی.',
+  'url': 'https://mg.github.io/fa/projects/'
+};
+---
+
+<BaseLayout
+  title="آرشیو پروژه‌ها | آرش ارشادی"
+  description="آرشیو جامع پروژه‌های معماری، مراکز فرهنگی اقلیمی، بازآفرینی سازه‌های صنعتی و مداخلات منظر شهری."
+  lang="fa"
+  currentPath="/fa/projects/"
+  structuredData={structuredData}
+>
+  <div class="site-container page-header">
+    <span class="text-label">۰۱ // آرشیو جامع پروژه‌ها</span>
+    <h1 class="page-title">طرح‌های برگزیده و اسناد معماری</h1>
+    <p class="page-description text-muted">
+      مجموعه‌ای از پروژه‌های مطالعاتی و اجرایی معماری. هر پروژه دربردارنده نقشه‌های فنی، مطالعات آیرودینامیک بادگیر، مقاطع اجرایی و مبانی نظری شکل‌گیری فضا است.
+    </p>
+  </div>
+
+  <div class="site-container">
+    <!-- Filter Component -->
+    <ProjectFilters projects={projects} locale="fa" />
+
+    <!-- Projects Grid List -->
+    <div class="projects-archive-grid" id="projects-grid-container">
+      {projects.map((project, index) => (
+        <div
+          data-project-item
+          data-typology={project.typology}
+          data-status={project.status}
+          data-year={String(project.year)}
+        >
+          <ProjectCard project={project} locale="fa" index={index} />
+        </div>
+      ))}
+    </div>
+
+    <!-- Empty State -->
+    <div id="filter-empty-state" class="empty-state" style="display: none;">
+      <h3 class="empty-title">هیچ پروژه‌ای با معیارهای فیلتر انتخابی تطابق ندارد.</h3>
+      <p class="empty-text text-muted">لطفاً گزینه‌های گونه‌شناسی یا وضعیت پروژه را تغییر دهید.</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-8);
+  }
+
+  .page-title {
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-description {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    max-width: 720px;
+  }
+
+  .projects-archive-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    margin-bottom: var(--space-16);
+  }
+
+  .empty-state {
+    padding: var(--space-16) var(--space-8);
+    text-align: center;
+    background-color: var(--color-bg-subtle);
+    border: 1px dashed var(--color-border);
+    margin-block: var(--space-8);
+  }
+
+  .empty-title {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-2);
+  }
+
+  @media (max-width: 1024px) {
+    .projects-archive-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .projects-archive-grid { grid-template-columns: 1fr; }
+  }
+</style>

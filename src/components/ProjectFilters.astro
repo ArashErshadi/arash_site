@@ -1,0 +1,259 @@
+---
+import type { FormattedProject } from '../utils/projects';
+import type { Locale } from '../utils/i18n';
+import { extractFilterFacets } from '../utils/projects';
+import { t } from '../utils/i18n';
+
+interface Props {
+  projects: FormattedProject[];
+  locale?: Locale;
+}
+
+const { projects, locale = 'en' } = Astro.props;
+const facets = extractFilterFacets(projects);
+const isRtl = locale === 'fa';
+---
+
+<div class="filter-wrapper hairline-border-b" id="portfolio-filters">
+  <div class="filter-controls">
+    <!-- Filter header & reset -->
+    <div class="filter-bar-header">
+      <span class="text-label filter-label">{locale === 'en' ? 'Filter Index By:' : 'فیلتر بر اساس:'}</span>
+      <button type="button" id="reset-filters-btn" class="filter-reset-btn text-xs text-muted" style="display: none;">
+        {locale === 'en' ? 'Reset All (Clear)' : 'پاک‌کردن فیلترها'}
+      </button>
+    </div>
+
+    <!-- Filter Buttons: Typologies -->
+    <div class="filter-group" role="group" aria-label={locale === 'en' ? 'Filter by Typology' : 'فیلتر بر اساس گونه‌شناسی'}>
+      <span class="filter-group-title text-xs text-muted">{locale === 'en' ? 'Typology:' : 'گونه‌شناسی:'}</span>
+      <div class="filter-buttons">
+        <button
+          type="button"
+          class="filter-pill is-active"
+          data-filter-group="typology"
+          data-filter-value="all"
+          aria-pressed="true"
+        >
+          {locale === 'en' ? 'All' : 'همه'}
+        </button>
+        {facets.typologies.map((typology) => (
+          <button
+            type="button"
+            class="filter-pill"
+            data-filter-group="typology"
+            data-filter-value={typology}
+            aria-pressed="false"
+          >
+            {typology}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Filter Buttons: Status / Year -->
+    <div class="filter-group" role="group" aria-label={locale === 'en' ? 'Filter by Status' : 'فیلتر بر اساس وضعیت'}>
+      <span class="filter-group-title text-xs text-muted">{locale === 'en' ? 'Status:' : 'وضعیت:'}</span>
+      <div class="filter-buttons">
+        <button
+          type="button"
+          class="filter-pill is-active"
+          data-filter-group="status"
+          data-filter-value="all"
+          aria-pressed="true"
+        >
+          {locale === 'en' ? 'All' : 'همه'}
+        </button>
+        {facets.statuses.map((status) => (
+          <button
+            type="button"
+            class="filter-pill"
+            data-filter-group="status"
+            data-filter-value={status}
+            aria-pressed="false"
+          >
+            {status}
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Filter Results Count -->
+  <div class="filter-status-bar">
+    <p id="filter-count" class="text-xs text-muted" aria-live="polite">
+      {locale === 'en' ? `Showing all ${projects.length} architectural projects` : `نمایش تمام ${projects.length} پروژه معماری`}
+    </p>
+  </div>
+</div>
+
+<script>
+  // Client-side Filter Logic
+  const filterRoot = document.getElementById('portfolio-filters');
+  const projectCards = document.querySelectorAll<HTMLElement>('[data-project-item]');
+  const countDisplay = document.getElementById('filter-count');
+  const emptyState = document.getElementById('filter-empty-state');
+  const resetBtn = document.getElementById('reset-filters-btn');
+
+  if (filterRoot && projectCards.length) {
+    const activeFilters: Record<string, string> = {
+      typology: 'all',
+      status: 'all',
+    };
+
+    function applyFilters() {
+      let visibleCount = 0;
+
+      projectCards.forEach((card) => {
+        const typology = card.getAttribute('data-typology') || '';
+        const status = card.getAttribute('data-status') || '';
+
+        const matchesTypology = activeFilters.typology === 'all' || activeFilters.typology === typology;
+        const matchesStatus = activeFilters.status === 'all' || activeFilters.status === status;
+
+        if (matchesTypology && matchesStatus) {
+          card.style.display = '';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Update count & empty state
+      const isRtl = document.documentElement.dir === 'rtl';
+      if (countDisplay) {
+        countDisplay.textContent = isRtl
+          ? `نمایش ${visibleCount} مورد از ${projectCards.length} پروژه`
+          : `Showing ${visibleCount} of ${projectCards.length} architectural projects`;
+      }
+
+      if (emptyState) {
+        emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+
+      // Show/hide reset button
+      const hasActive = activeFilters.typology !== 'all' || activeFilters.status !== 'all';
+      if (resetBtn) {
+        resetBtn.style.display = hasActive ? 'inline-flex' : 'none';
+      }
+    }
+
+    // Attach click listeners to pill buttons
+    const pills = filterRoot.querySelectorAll<HTMLButtonElement>('.filter-pill');
+    pills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const group = pill.getAttribute('data-filter-group');
+        const val = pill.getAttribute('data-filter-value');
+        if (!group || !val) return;
+
+        // Toggle in group
+        const groupPills = filterRoot.querySelectorAll(`.filter-pill[data-filter-group="${group}"]`);
+        groupPills.forEach((p) => {
+          p.classList.remove('is-active');
+          p.setAttribute('aria-pressed', 'false');
+        });
+
+        pill.classList.add('is-active');
+        pill.setAttribute('aria-pressed', 'true');
+
+        activeFilters[group] = val;
+        applyFilters();
+      });
+    });
+
+    // Reset button
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        activeFilters.typology = 'all';
+        activeFilters.status = 'all';
+
+        pills.forEach((p) => {
+          const val = p.getAttribute('data-filter-value');
+          if (val === 'all') {
+            p.classList.add('is-active');
+            p.setAttribute('aria-pressed', 'true');
+          } else {
+            p.classList.remove('is-active');
+            p.setAttribute('aria-pressed', 'false');
+          }
+        });
+
+        applyFilters();
+      });
+    }
+  }
+</script>
+
+<style>
+  .filter-wrapper {
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-6);
+  }
+
+  .filter-controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .filter-bar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .filter-reset-btn {
+    text-decoration: underline;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  .filter-reset-btn:hover {
+    color: var(--color-accent);
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .filter-group-title {
+    font-weight: 500;
+    min-width: 80px;
+  }
+
+  .filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .filter-pill {
+    font-size: var(--text-xs);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    color: var(--color-text-muted);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+  }
+
+  .filter-pill:hover {
+    border-color: var(--color-text);
+    color: var(--color-text);
+  }
+
+  .filter-pill.is-active {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .filter-status-bar {
+    margin-top: var(--space-4);
+  }
+</style>

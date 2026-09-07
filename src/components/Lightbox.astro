@@ -1,0 +1,259 @@
+---
+interface Props {
+  locale?: 'en' | 'fa';
+}
+
+const { locale = 'en' } = Astro.props;
+const isRtl = locale === 'fa';
+---
+
+<dialog id="architectural-lightbox" class="lightbox-dialog" aria-modal="true" aria-label={locale === 'en' ? 'Architectural Image Gallery' : 'نمایشگر مدارک و تصاویر معماری'}>
+  <div class="lightbox-inner" id="lightbox-container">
+    <!-- Top Bar: Counter & Close -->
+    <div class="lightbox-top-bar">
+      <span class="lightbox-counter text-mono text-xs" id="lightbox-counter">01 / 01</span>
+      <button
+        type="button"
+        id="lightbox-close-btn"
+        class="lightbox-close-btn"
+        aria-label={locale === 'en' ? 'Close lightbox' : 'بستن گالری'}
+      >
+        <span aria-hidden="true">✕</span>
+      </button>
+    </div>
+
+    <!-- Image Display & Nav Buttons -->
+    <div class="lightbox-stage">
+      <button
+        type="button"
+        id="lightbox-prev-btn"
+        class="lightbox-nav-btn prev-btn"
+        aria-label={locale === 'en' ? 'Previous image' : 'تصویر قبلی'}
+      >
+        <span aria-hidden="true">{isRtl ? '→' : '←'}</span>
+      </button>
+
+      <div class="lightbox-img-wrapper">
+        <img id="lightbox-active-img" src="" alt="" />
+      </div>
+
+      <button
+        type="button"
+        id="lightbox-next-btn"
+        class="lightbox-nav-btn next-btn"
+        aria-label={locale === 'en' ? 'Next image' : 'تصویر بعدی'}
+      >
+        <span aria-hidden="true">{isRtl ? '←' : '→'}</span>
+      </button>
+    </div>
+
+    <!-- Bottom Caption -->
+    <div class="lightbox-caption-bar">
+      <p id="lightbox-caption-text" class="text-sm text-muted"></p>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  // Accessible Lightbox Controller
+  const dialog = document.getElementById('architectural-lightbox') as HTMLDialogElement | null;
+  const activeImg = document.getElementById('lightbox-active-img') as HTMLImageElement | null;
+  const captionText = document.getElementById('lightbox-caption-text');
+  const counterText = document.getElementById('lightbox-counter');
+  const closeBtn = document.getElementById('lightbox-close-btn');
+  const prevBtn = document.getElementById('lightbox-prev-btn');
+  const nextBtn = document.getElementById('lightbox-next-btn');
+
+  if (dialog && activeImg) {
+    let triggers: HTMLButtonElement[] = [];
+    let currentIndex = 0;
+    let lastFocusedElement: HTMLElement | null = null;
+
+    function refreshTriggers() {
+      triggers = Array.from(document.querySelectorAll<HTMLButtonElement>('.lightbox-trigger'));
+    }
+
+    function showImage(index: number) {
+      if (index < 0) index = triggers.length - 1;
+      if (index >= triggers.length) index = 0;
+      currentIndex = index;
+
+      const trigger = triggers[currentIndex];
+      const src = trigger.getAttribute('data-lightbox-src') || '';
+      const caption = trigger.getAttribute('data-lightbox-caption') || '';
+      const img = trigger.querySelector('img');
+      const alt = img ? img.getAttribute('alt') || '' : '';
+
+      activeImg.src = src;
+      activeImg.alt = alt;
+
+      if (captionText) captionText.textContent = caption || alt;
+      if (counterText) counterText.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(triggers.length).padStart(2, '0')}`;
+    }
+
+    function openLightbox(trigger: HTMLButtonElement) {
+      refreshTriggers();
+      lastFocusedElement = trigger;
+      const index = triggers.indexOf(trigger);
+      showImage(index >= 0 ? index : 0);
+
+      dialog.showModal();
+      document.body.style.overflow = 'hidden';
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeLightbox() {
+      dialog.close();
+      document.body.style.overflow = '';
+      if (lastFocusedElement) {
+        lastFocusedElement.focus();
+        lastFocusedElement = null;
+      }
+    }
+
+    // Attach click listeners to all triggers on page
+    document.addEventListener('click', (e) => {
+      const target = (e.target as HTMLElement).closest('.lightbox-trigger') as HTMLButtonElement | null;
+      if (target) {
+        e.preventDefault();
+        openLightbox(target);
+      }
+    });
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeLightbox);
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+    }
+
+    // Keyboard navigation & Focus Trapping
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeLightbox();
+      } else if (e.key === 'ArrowLeft') {
+        const isRtl = document.documentElement.dir === 'rtl';
+        showImage(isRtl ? currentIndex + 1 : currentIndex - 1);
+      } else if (e.key === 'ArrowRight') {
+        const isRtl = document.documentElement.dir === 'rtl';
+        showImage(isRtl ? currentIndex - 1 : currentIndex + 1);
+      }
+    });
+
+    // Close on backdrop click
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) {
+        closeLightbox();
+      }
+    });
+  }
+</script>
+
+<style>
+  .lightbox-dialog {
+    padding: 0;
+    border: none;
+    background-color: rgba(26, 26, 25, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    color: var(--color-bg);
+  }
+
+  .lightbox-dialog::backdrop {
+    background: transparent;
+  }
+
+  .lightbox-inner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: var(--space-4);
+  }
+
+  .lightbox-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-2) var(--space-4);
+  }
+
+  .lightbox-counter {
+    color: var(--color-text-light);
+  }
+
+  .lightbox-close-btn {
+    font-size: var(--text-xl);
+    color: var(--color-bg);
+    padding: var(--space-2) var(--space-3);
+    cursor: pointer;
+    transition: transform var(--transition-fast);
+  }
+
+  .lightbox-close-btn:hover {
+    transform: scale(1.1);
+    color: var(--color-accent);
+  }
+
+  .lightbox-stage {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .lightbox-img-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    max-height: calc(100vh - 160px);
+    padding: var(--space-4);
+  }
+
+  .lightbox-img-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .lightbox-nav-btn {
+    font-size: var(--text-2xl);
+    color: var(--color-bg);
+    padding: var(--space-4);
+    cursor: pointer;
+    z-index: 10;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .lightbox-nav-btn:hover {
+    color: var(--color-accent);
+    transform: scale(1.15);
+  }
+
+  .lightbox-caption-bar {
+    text-align: center;
+    padding: var(--space-3) var(--space-6);
+    background-color: rgba(26, 26, 25, 0.6);
+  }
+
+  #lightbox-caption-text {
+    color: var(--color-text-light);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+</style>

@@ -1,0 +1,118 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="رویکرد و استودیو | آرش ارشادی"
+  description="مبانی نظری، پژوهش‌های فضایی، ترمودینامیک اقلیمی و اخلاق مصالح در طراحی معماری."
+  lang="fa"
+  currentPath="/fa/about/"
+>
+  <div class="site-container about-page-header">
+    <span class="text-label">رویکرد // مبانی نظری و اخلاق فضایی</span>
+    <h1 class="about-title">معماری به مثابه باستان‌شناسی محیطی</h1>
+    <p class="about-lead text-muted">
+      کاوش در پیوند میان ترمودینامیک بومی، صداقت در ساختار مصالح و کارایی محاسباتی سازه‌ها.
+    </p>
+  </div>
+
+  <div class="site-container about-content site-grid">
+    <div class="about-main-text">
+      <section class="about-section">
+        <h2 class="text-2xl">۰۱ // فلسفه و بینش فضایی</h2>
+        <p>
+          ما هر ساختمان را عضوی زنده و کنش‌گر در بستر اقلیمی و فرهنگی خود می‌دانیم. رویکرد ما به جای خلق پوسته‌های صلب و متکی بر تجهیزات مکانیکی پرمصرف، بر این بنیاد استوار است که چگونه فرم، جهت‌گیری و تخلخل مصالح می‌توانند نوسانات دمایی شبانه‌روز، همرفت طبیعی هوا و زوایای تابش خورشید را به خدمت آسایش انسان درآورند.
+        </p>
+        <p>
+          معماری فلات ایران طی قرون متمادی هوشمندی بی‌نظیری در ساماندهی اقلیم پدید آورده است: از بادگیرها و آب‌انبارها تا گودال‌باغچه‌ها و شبکه‌های مشبک فخرومدین. استودیوی ما این الگوها را با بهره‌گیری از شبیه‌سازی‌های پیشرفته آیرودینامیک و ابزارهای محاسباتی به زبان معاصر بازآفرینی می‌کند.
+        </p>
+      </section>
+
+      <section class="about-section">
+        <h2 class="text-2xl">۰۲ // بازآفرینی سازگار و میراث صنعتی</h2>
+        <p>
+          پایدارترین ساختمان، بنایی است که هم‌اکنون موجود است. در پروژه‌های بازآفرینی، ما سازه‌های صنعتی و تاریخی را نه به عنوان آثاری منجمد در زمان، بلکه به عنوان اسکلت‌هایی انعطاف‌پذیر می‌بینیم که می‌توانند کاربری‌های مدنی و هنری نوینی را بدون محو ردپای تاریخی و اصالت صنعتی خود پذیرا شوند.
+        </p>
+      </section>
+
+      <section class="about-section">
+        <h2 class="text-2xl">۰۳ // پژوهش و فعالیت‌های آکادمیک</h2>
+        <p>
+          فرایند طراحی در استودیو پیوسته با پژوهش‌های آکادمیک، ساخت ماکت‌های آزمون فیزیکی و تحلیل هندسه خورشیدی تغذیه می‌شود. ما تجربیات خود را در قالب کارگاه‌های تخصصی معماری خاک و تاب‌آوری اقلیمی به اشتراک می‌گذاریم.
+        </p>
+      </section>
+    </div>
+
+    <aside class="about-sidebar">
+      <div class="about-side-panel">
+        <span class="text-label">همکاری و سفارش پروژه</span>
+        <p class="text-sm text-muted">گفتگو پیرامون طراحی معماری، پروژه‌های پژوهشی، تدریس و همکاری‌های چندرشته‌ای.</p>
+        <a href="/fa/contact/" class="btn-editorial">
+          <span>ارتباط با استودیو</span>
+          <span aria-hidden="true">←</span>
+        </a>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page-header {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-12);
+  }
+
+  .about-title {
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-4);
+    font-weight: 600;
+  }
+
+  .about-lead {
+    font-size: var(--text-xl);
+    line-height: var(--leading-relaxed);
+    max-width: 760px;
+  }
+
+  .about-content {
+    padding-bottom: var(--space-24);
+  }
+
+  .about-main-text {
+    grid-column: span 8;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+
+  .about-section h2 {
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border-hairline);
+    font-weight: 600;
+  }
+
+  .about-section p {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-body);
+  }
+
+  .about-sidebar {
+    grid-column: span 4;
+  }
+
+  .about-side-panel {
+    background-color: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 768px) {
+    .about-main-text { grid-column: span 12; }
+    .about-sidebar { grid-column: span 12; }
+  }
+</style>

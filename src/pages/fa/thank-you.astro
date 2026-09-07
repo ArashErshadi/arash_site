@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="پیام دریافت شد | آرش ارشادی"
+  description="درخواست همکاری شما با موفقیت دریافت شد."
+  lang="fa"
+  currentPath="/fa/thank-you/"
+>
+  <div class="site-container-narrow status-page">
+    <span class="text-label">تایید دریافت پیام</span>
+    <h1 class="status-title">پیام شما با سپاس دریافت گردید</h1>
+    <p class="status-lead text-muted">
+      درخواست همکاری شما ثبت شد. پس از بررسی شرح پروژه و زمینه همکاری، از طریق نشانی ایمیل با شما در ارتباط خواهیم بود.
+    </p>
+    <div class="status-actions">
+      <a href="/fa/" class="btn-editorial">
+        <span>بازگشت به صفحه اصلی</span>
+        <span aria-hidden="true">←</span>
+      </a>
+      <a href="/fa/projects/" class="btn-editorial-outline">
+        <span>مشاهده پروژه‌ها</span>
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .status-page {
+    padding-top: var(--space-24);
+    padding-bottom: var(--space-24);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .status-title {
+    font-size: var(--text-3xl);
+    font-weight: 600;
+  }
+
+  .status-lead {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-4);
+  }
+
+  .status-actions {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+</style>

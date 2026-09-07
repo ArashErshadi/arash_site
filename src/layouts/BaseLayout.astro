@@ -1,0 +1,118 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: 'en' | 'fa';
+  currentPath?: string;
+  alternateUrl?: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  structuredData?: Record<string, any> | Array<Record<string, any>>;
+  hideFooter?: boolean;
+}
+
+const {
+  title = 'Arash Ershadi | Architectural Designer',
+  description = 'Original editorial architectural portfolio featuring cultural, adaptive reuse, and landscape interventions.',
+  lang = 'en',
+  currentPath = Astro.url.pathname,
+  alternateUrl,
+  canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://mg.github.io').href,
+  ogImage = '/images/og-default.png',
+  structuredData,
+  hideFooter = false,
+} = Astro.props;
+
+const dir = lang === 'fa' ? 'rtl' : 'ltr';
+const isRtl = lang === 'fa';
+
+// Build alternate hreflang URL
+let hreflangAlt = alternateUrl;
+if (!hreflangAlt) {
+  if (lang === 'en') {
+    const p = currentPath === '/' ? '/fa/' : `/fa${currentPath.endsWith('/') ? currentPath : currentPath + '/'}`;
+    hreflangAlt = new URL(p, Astro.site || 'https://mg.github.io').href;
+  } else {
+    const stripped = currentPath.replace(/^\/fa(\/|$)/, '/');
+    const p = stripped.endsWith('/') ? stripped : `${stripped}/`;
+    hreflangAlt = new URL(p, Astro.site || 'https://mg.github.io').href;
+  }
+}
+
+const googleAnalyticsId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || process.env.PUBLIC_GA_MEASUREMENT_ID;
+---
+
+<!doctype html>
+<html lang={lang} dir={dir}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Hreflang Tags for Bilingual Equivalence -->
+    <link rel="alternate" hreflang={lang} href={canonicalUrl} />
+    <link rel="alternate" hreflang={lang === 'en' ? 'fa' : 'en'} href={hreflangAlt} />
+    <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site || 'https://mg.github.io').href} />
+
+    <!-- Open Graph & Social Cards -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site || 'https://mg.github.io').href} />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'fa_IR'} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, Astro.site || 'https://mg.github.io').href} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Structured Data (JSON-LD) -->
+    {structuredData && (
+      <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    )}
+
+    <!-- Optional Google Analytics (loaded only when PUBLIC_GA_MEASUREMENT_ID is present) -->
+    {googleAnalyticsId && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}></script>
+        <script define:vars={{ googleAnalyticsId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', googleAnalyticsId);
+        </script>
+      </>
+    )}
+  </head>
+  <body>
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="skip-to-content">
+      {lang === 'en' ? 'Skip to main content' : 'پرش به محتوای اصلی'}
+    </a>
+
+    <!-- Header Navigation -->
+    <Header lang={lang} currentPath={currentPath} alternateUrl={alternateUrl} />
+
+    <!-- Main Content Area -->
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    {!hideFooter && <Footer lang={lang} currentPath={currentPath} alternateUrl={alternateUrl} />}
+  </body>
+</html>

@@ -1,0 +1,257 @@
+---
+import type { StoryBlock } from '../content/schema';
+import type { Locale } from '../utils/i18n';
+
+interface Props {
+  blocks: StoryBlock[];
+  locale?: Locale;
+}
+
+const { blocks = [], locale = 'en' } = Astro.props;
+const isRtl = locale === 'fa';
+---
+
+<div class="story-blocks-container">
+  {blocks.map((block, index) => {
+    if (block.type === 'fullBleed') {
+      return (
+        <figure class="story-block story-full-bleed">
+          <button
+            type="button"
+            class="lightbox-trigger"
+            data-lightbox-src={block.src}
+            data-lightbox-caption={block.caption || block.alt}
+            aria-label={locale === 'en' ? `Enlarge image: ${block.alt}` : `بزرگ‌نمایی تصویر: ${block.alt}`}
+          >
+            <img src={block.src} alt={block.alt} width="1600" height="1000" loading="lazy" decoding="async" />
+          </button>
+          {block.caption && (
+            <figcaption class="story-caption site-container text-xs text-muted">
+              <span class="caption-marker">{String(index + 1).padStart(2, '0')} //</span> {block.caption}
+            </figcaption>
+          )}
+        </figure>
+      );
+    }
+
+    if (block.type === 'imageText') {
+      return (
+        <div class={`story-block story-image-text site-container layout-${block.imagePosition || 'start'}`}>
+          <div class="image-text-col-img">
+            <button
+              type="button"
+              class="lightbox-trigger"
+              data-lightbox-src={block.src}
+              data-lightbox-caption={block.caption || block.alt}
+              aria-label={locale === 'en' ? `Enlarge image: ${block.alt}` : `بزرگ‌نمایی تصویر: ${block.alt}`}
+            >
+              <img src={block.src} alt={block.alt} width="1600" height="1000" loading="lazy" decoding="async" />
+            </button>
+            {block.caption && (
+              <p class="story-caption text-xs text-muted">
+                <span class="caption-marker">{String(index + 1).padStart(2, '0')} //</span> {block.caption}
+              </p>
+            )}
+          </div>
+          <div class="image-text-col-content">
+            {block.heading && <h3 class="image-text-heading text-serif">{block.heading}</h3>}
+            <p class="image-text-body">{block.text}</p>
+          </div>
+        </div>
+      );
+    }
+
+    if (block.type === 'drawingPlate') {
+      return (
+        <div class="story-block story-drawing-plate site-container">
+          <div class="drawing-plate-card">
+            <div class="drawing-plate-header hairline-border-b">
+              <div>
+                <span class="text-label">{block.drawingType || (locale === 'en' ? 'Architectural Plate' : 'سند معماری')}</span>
+                {block.title && <h4 class="drawing-plate-title">{block.title}</h4>}
+              </div>
+              {block.scale && <span class="drawing-plate-scale text-mono text-xs text-muted">SCALE {block.scale}</span>}
+            </div>
+            <div class="drawing-plate-img-wrap">
+              <button
+                type="button"
+                class="lightbox-trigger"
+                data-lightbox-src={block.src}
+                data-lightbox-caption={block.caption || block.alt}
+                aria-label={locale === 'en' ? `Enlarge drawing: ${block.alt}` : `بزرگ‌نمایی نقشه: ${block.alt}`}
+              >
+                <img src={block.src} alt={block.alt} width="1600" height="1000" loading="lazy" decoding="async" />
+              </button>
+            </div>
+            {block.caption && (
+              <div class="drawing-plate-footer hairline-border-t">
+                <p class="text-xs text-muted">{block.caption}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    if (block.type === 'twoUp') {
+      return (
+        <div class="story-block story-two-up site-container">
+          <div class="two-up-grid">
+            <figure class="two-up-item">
+              <button
+                type="button"
+                class="lightbox-trigger"
+                data-lightbox-src={block.left.src}
+                data-lightbox-caption={block.left.caption || block.left.alt}
+                aria-label={locale === 'en' ? `Enlarge image: ${block.left.alt}` : `بزرگ‌نمایی: ${block.left.alt}`}
+              >
+                <img src={block.left.src} alt={block.left.alt} width="1600" height="1000" loading="lazy" decoding="async" />
+              </button>
+              {block.left.caption && <figcaption class="text-xs text-muted">{block.left.caption}</figcaption>}
+            </figure>
+            <figure class="two-up-item">
+              <button
+                type="button"
+                class="lightbox-trigger"
+                data-lightbox-src={block.right.src}
+                data-lightbox-caption={block.right.caption || block.right.alt}
+                aria-label={locale === 'en' ? `Enlarge image: ${block.right.alt}` : `بزرگ‌نمایی: ${block.right.alt}`}
+              >
+                <img src={block.right.src} alt={block.right.alt} width="1600" height="1000" loading="lazy" decoding="async" />
+              </button>
+              {block.right.caption && <figcaption class="text-xs text-muted">{block.right.caption}</figcaption>}
+            </figure>
+          </div>
+        </div>
+      );
+    }
+
+    if (block.type === 'quote') {
+      return (
+        <blockquote class="story-block story-quote site-container-narrow">
+          <p class="quote-text text-serif">“{block.quote}”</p>
+          {block.attribution && <cite class="quote-cite text-xs text-muted">— {block.attribution}</cite>}
+        </blockquote>
+      );
+    }
+
+    return null;
+  })}
+</div>
+
+<style>
+  .story-blocks-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    margin-block: var(--space-16);
+  }
+
+  .lightbox-trigger {
+    width: 100%;
+    cursor: zoom-in;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .story-full-bleed img {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    object-fit: cover;
+  }
+
+  .story-caption {
+    margin-top: var(--space-3);
+  }
+
+  .caption-marker {
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+  }
+
+  .story-image-text {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  .story-image-text.layout-end {
+    direction: rtl;
+  }
+
+  .story-image-text.layout-end > * {
+    direction: ltr;
+  }
+
+  [dir="rtl"] .story-image-text.layout-end {
+    direction: ltr;
+  }
+
+  [dir="rtl"] .story-image-text.layout-end > * {
+    direction: rtl;
+  }
+
+  .image-text-heading {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .image-text-body {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-body);
+  }
+
+  .drawing-plate-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+
+  .drawing-plate-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-6);
+    background-color: var(--color-bg-subtle);
+  }
+
+  .drawing-plate-title {
+    font-size: var(--text-base);
+    font-weight: 500;
+  }
+
+  .drawing-plate-img-wrap {
+    padding: var(--space-6);
+    background-color: var(--color-surface);
+  }
+
+  .drawing-plate-footer {
+    padding: var(--space-3) var(--space-6);
+    background-color: var(--color-bg-subtle);
+  }
+
+  .two-up-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+  }
+
+  .story-quote {
+    padding-block: var(--space-8);
+    border-inline-start: 2px solid var(--color-accent);
+    padding-inline-start: var(--space-6);
+  }
+
+  .quote-text {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-snug);
+    margin-bottom: var(--space-3);
+  }
+
+  @media (max-width: 768px) {
+    .story-image-text { grid-template-columns: 1fr; }
+    .two-up-grid { grid-template-columns: 1fr; }
+  }
+</style>

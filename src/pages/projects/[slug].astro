@@ -1,0 +1,382 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StoryBlockRenderer from '../../components/StoryBlockRenderer.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getProjects, getProjectBySlug, getAdjacentProjects, getRelatedProjects } from '../../utils/projects';
+
+export async function getStaticPaths() {
+  const projects = await getProjects('en');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { prev, next } = await getAdjacentProjects(project.slug, 'en');
+const relatedProjects = await getRelatedProjects(project.slug, 'en', 2);
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      {
+        '@type': 'ListItem',
+        'position': 1,
+        'name': 'Home',
+        'item': 'https://mg.github.io/'
+      },
+      {
+        '@type': 'ListItem',
+        'position': 2,
+        'name': 'Projects',
+        'item': 'https://mg.github.io/projects/'
+      },
+      {
+        '@type': 'ListItem',
+        'position': 3,
+        'name': project.content.title,
+        'item': `https://mg.github.io/projects/${project.slug}/`
+      }
+    ]
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    'name': project.content.title,
+    'headline': project.content.excerpt,
+    'description': project.content.premise,
+    'dateCreated': String(project.year),
+    'author': {
+      '@type': 'Person',
+      'name': 'Arash Ershadi'
+    },
+    'image': project.cover
+  }
+];
+---
+
+<BaseLayout
+  title={`${project.content.title} | Arash Ershadi`}
+  description={project.content.excerpt}
+  lang="en"
+  currentPath={`/projects/${project.slug}/`}
+  ogImage={project.cover}
+  structuredData={structuredData}
+>
+  <article class="project-detail-article">
+    <!-- Breadcrumb Navigation -->
+    <nav class="site-container breadcrumb-nav" aria-label="Breadcrumbs">
+      <ol class="breadcrumb-list text-xs text-muted">
+        <li><a href="/">Home</a></li>
+        <li aria-hidden="true">/</li>
+        <li><a href="/projects/">Projects</a></li>
+        <li aria-hidden="true">/</li>
+        <li aria-current="page" class="text-text">{project.content.title}</li>
+      </ol>
+    </nav>
+
+    <!-- Project Header & Premise -->
+    <header class="site-container project-header">
+      <div class="project-header-grid site-grid">
+        <div class="project-title-col">
+          <span class="project-order-tag text-mono text-label">{String(project.order).padStart(2, '0')} // Monograph Plate</span>
+          <h1 class="project-headline">{project.content.title}</h1>
+          <p class="project-lead text-muted">{project.content.excerpt}</p>
+        </div>
+
+        <!-- Metadata Plate Sidebar -->
+        <aside class="project-meta-plate">
+          <div class="meta-plate-header hairline-border-b">
+            <span class="text-label">Project Data // {project.year}</span>
+          </div>
+          <dl class="meta-plate-list">
+            <div class="meta-item hairline-border-b">
+              <dt class="text-label">Location</dt>
+              <dd>{project.location}</dd>
+            </div>
+            <div class="meta-item hairline-border-b">
+              <dt class="text-label">Typology</dt>
+              <dd>{project.typology}</dd>
+            </div>
+            <div class="meta-item hairline-border-b">
+              <dt class="text-label">Scale / Area</dt>
+              <dd class="text-mono">{project.scale}</dd>
+            </div>
+            <div class="meta-item hairline-border-b">
+              <dt class="text-label">Status</dt>
+              <dd>{project.status}</dd>
+            </div>
+            <div class="meta-item hairline-border-b">
+              <dt class="text-label">Tools & Media</dt>
+              <dd>{project.tools.join(', ')}</dd>
+            </div>
+            <div class="meta-item">
+              <dt class="text-label">Collaborators</dt>
+              <dd>{project.collaborators.join(', ')}</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </header>
+
+    <!-- Full Width Hero Cover -->
+    <div class="project-hero-media">
+      <button
+        type="button"
+        class="lightbox-trigger"
+        data-lightbox-src={project.cover}
+        data-lightbox-caption={`${project.content.title} - Main Perspective`}
+        aria-label={`Enlarge hero image for ${project.content.title}`}
+      >
+        <img src={project.cover} alt={project.content.title} width="1600" height="1000" loading="eager" decoding="async" class="hero-cover-img" />
+      </button>
+    </div>
+
+    <!-- Architectural Premise & Context -->
+    <section class="project-premise-section site-container-narrow">
+      <span class="text-label">01 // Architectural Premise</span>
+      <h2 class="premise-heading text-serif">Spatial & Environmental Context</h2>
+      <p class="premise-body">{project.content.premise}</p>
+    </section>
+
+    <!-- Story Blocks / Sections -->
+    <StoryBlockRenderer blocks={project.content.storyBlocks} locale="en" />
+
+    <!-- Additional Gallery Plates -->
+    {project.content.gallery.length > 0 && (
+      <section class="project-gallery-section site-container">
+        <div class="section-header hairline-border-b">
+          <span class="text-label">02 // Technical Drawings & Photographic Plates</span>
+          <h2 class="section-title text-serif">Monograph Drawing Suite</h2>
+        </div>
+        <div class="gallery-plates-grid">
+          {project.content.gallery.map((img, i) => (
+            <figure class="gallery-plate-item">
+              <button
+                type="button"
+                class="lightbox-trigger"
+                data-lightbox-src={img.src}
+                data-lightbox-caption={img.caption || img.alt}
+                aria-label={`Enlarge drawing ${i + 1}: ${img.alt}`}
+              >
+                <img src={img.src} alt={img.alt} width="1600" height="1000" loading="lazy" decoding="async" />
+              </button>
+              {img.caption && (
+                <figcaption class="text-xs text-muted">
+                  <span class="caption-marker">{String(i + 1).padStart(2, '0')} //</span> {img.caption}
+                </figcaption>
+              )}
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Adjacent Project Navigation -->
+    <nav class="site-container project-pagination hairline-border-t hairline-border-b" aria-label="Adjacent Projects">
+      <div class="pagination-inner">
+        {prev ? (
+          <a href={`/projects/${prev.slug}/`} class="pagination-link prev">
+            <span class="text-label">← Previous Project</span>
+            <span class="pagination-title">{prev.content.title}</span>
+          </a>
+        ) : (
+          <div class="pagination-placeholder"></div>
+        )}
+
+        <a href="/projects/" class="pagination-archive-link text-label">
+          [ Archive Index ]
+        </a>
+
+        {next ? (
+          <a href={`/projects/${next.slug}/`} class="pagination-link next">
+            <span class="text-label">Next Project →</span>
+            <span class="pagination-title">{next.content.title}</span>
+          </a>
+        ) : (
+          <div class="pagination-placeholder"></div>
+        )}
+      </div>
+    </nav>
+
+    <!-- Related Projects -->
+    {relatedProjects.length > 0 && (
+      <section class="related-projects-section site-container">
+        <div class="section-header">
+          <span class="text-label">03 // Related Inquiries</span>
+          <h2 class="section-title text-serif">Further Studies in Typology</h2>
+        </div>
+        <div class="related-projects-grid">
+          {relatedProjects.map((p, idx) => (
+            <ProjectCard project={p} locale="en" index={idx} />
+          ))}
+        </div>
+      </section>
+    )}
+  </article>
+
+  <!-- Interactive Lightbox -->
+  <Lightbox locale="en" />
+</BaseLayout>
+
+<style>
+  .breadcrumb-nav {
+    padding-top: var(--space-6);
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .project-header {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-12);
+  }
+
+  .project-title-col {
+    grid-column: span 8;
+  }
+
+  .project-order-tag {
+    display: block;
+    margin-bottom: var(--space-3);
+  }
+
+  .project-headline {
+    margin-bottom: var(--space-4);
+    font-weight: 400;
+  }
+
+  .project-lead {
+    font-size: var(--text-xl);
+    line-height: var(--leading-relaxed);
+  }
+
+  .project-meta-plate {
+    grid-column: span 4;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    align-self: start;
+  }
+
+  .meta-plate-header {
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-bg-subtle);
+  }
+
+  .meta-plate-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-3) var(--space-4);
+    gap: 2px;
+  }
+
+  .meta-item dd {
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .project-hero-media {
+    width: 100%;
+    margin-bottom: var(--space-16);
+  }
+
+  .hero-cover-img {
+    width: 100%;
+    max-height: 75vh;
+    object-fit: cover;
+  }
+
+  .project-premise-section {
+    margin-bottom: var(--space-16);
+  }
+
+  .premise-heading {
+    font-size: var(--text-3xl);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+
+  .premise-body {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-body);
+  }
+
+  .gallery-plates-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+    margin-top: var(--space-8);
+  }
+
+  .gallery-plate-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .gallery-plate-item img {
+    border: 1px solid var(--color-border);
+  }
+
+  .project-pagination {
+    margin-block: var(--space-16);
+    padding-block: var(--space-8);
+  }
+
+  .pagination-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  .pagination-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    max-width: 320px;
+    transition: color var(--transition-fast);
+  }
+
+  .pagination-link:hover {
+    color: var(--color-accent);
+  }
+
+  .pagination-title {
+    font-size: var(--text-base);
+    font-weight: 500;
+  }
+
+  .related-projects-section {
+    margin-bottom: var(--space-24);
+  }
+
+  .related-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+  }
+
+  @media (max-width: 768px) {
+    .project-title-col { grid-column: span 12; }
+    .project-meta-plate { grid-column: span 12; }
+    .gallery-plates-grid { grid-template-columns: 1fr; }
+    .related-projects-grid { grid-template-columns: 1fr; }
+  }
+</style>

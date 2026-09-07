@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import ProjectFilters from '../../components/ProjectFilters.astro';
+import { getProjects } from '../../utils/projects';
+
+const projects = await getProjects('en');
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  'name': 'Architectural Project Archive',
+  'description': 'Comprehensive monograph archive of cultural centers, adaptive reuse interventions, and public realm projects by Arash Ershadi.',
+  'url': 'https://mg.github.io/projects/'
+};
+---
+
+<BaseLayout
+  title="Project Archive | Arash Ershadi"
+  description="Comprehensive architectural archive of cultural centers, adaptive reuse interventions, and ecological public realm monographs."
+  lang="en"
+  currentPath="/projects/"
+  structuredData={structuredData}
+>
+  <div class="site-container page-header">
+    <span class="text-label">01 // Architectural Archive</span>
+    <h1 class="page-title">Selected Works & Monograph Plates</h1>
+    <p class="page-description text-muted">
+      A curated survey of physical and computational architectural projects. Each monograph contains technical plans, aerodynamic windcatcher studies, structural sections, and spatial premise documentation.
+    </p>
+  </div>
+
+  <div class="site-container">
+    <!-- Filter Component -->
+    <ProjectFilters projects={projects} locale="en" />
+
+    <!-- Projects Grid List -->
+    <div class="projects-archive-grid" id="projects-grid-container">
+      {projects.map((project, index) => (
+        <div
+          data-project-item
+          data-typology={project.typology}
+          data-status={project.status}
+          data-year={String(project.year)}
+        >
+          <ProjectCard project={project} locale="en" index={index} />
+        </div>
+      ))}
+    </div>
+
+    <!-- Empty State -->
+    <div id="filter-empty-state" class="empty-state" style="display: none;">
+      <h3 class="empty-title text-serif">No architectural studies match the selected filters.</h3>
+      <p class="empty-text text-muted">Please adjust your typology or status filter criteria.</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-8);
+  }
+
+  .page-title {
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-description {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    max-width: 720px;
+  }
+
+  .projects-archive-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    margin-bottom: var(--space-16);
+  }
+
+  .empty-state {
+    padding: var(--space-16) var(--space-8);
+    text-align: center;
+    background-color: var(--color-bg-subtle);
+    border: 1px dashed var(--color-border);
+    margin-block: var(--space-8);
+  }
+
+  .empty-title {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-2);
+  }
+
+  @media (max-width: 1024px) {
+    .projects-archive-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .projects-archive-grid { grid-template-columns: 1fr; }
+  }
+</style>
