@@ -41,8 +41,8 @@ jobs:
 
       - name: Build Astro Site
         env:
-          PUBLIC_SITE_URL: ${{ steps.pages.outputs.origin }}
-          PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          PUBLIC_SITE_URL: https://ArashErshadi.github.io
+          PUBLIC_BASE_PATH: https://ArashErshadi.github.io/
         run: npm run build
 
       - name: Upload Pages artifact
@@ -54,7 +54,7 @@ jobs:
     name: Deploy to GitHub Pages
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: https://ArashErshadi.github.io
     needs: build
     runs-on: ubuntu-latest
     steps:
